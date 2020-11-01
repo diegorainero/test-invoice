@@ -1,0 +1,35 @@
+{
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.30.2",
+    "core-js": "^3.0.0",
+    "node-sass": "^4.14.1",
+    "regenerator-runtime": "^0.13.2",
+    "sass-loader": "^10.0.3",
+    "webpack-notifier": "^1.8.0"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev-server": "encore dev-server",
+    "dev": "encore dev",
+    "watch": "encore dev --watch",
+    "build": "encore production --progress"
+  },
+  "name": "test_invoice",
+  "description": "A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework, with full [HTTP/2](https://symfony.com/doc/current/weblink.html) and HTTPS support.",
+  "version": "1.0.0",
+  "main": "webpack.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dunglas/symfony-docker.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/dunglas/symfony-docker/issues"
+  },
+  "homepage": "https://github.com/dunglas/symfony-docker#readme",
+  "dependencies": {
+    "bootstrap-sass": "^3.4.1",
+    "jquery": "^3.5.1"
+  }
+}

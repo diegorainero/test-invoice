@@ -1,0 +1,109 @@
+{# templates/task/new.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block content_body %}
+<div class="container">
+        <div class="blog-header">
+            <h2 class="blog-title">Insert new Invoice</h2>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 blog-main">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="bg-{{ label }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {{ form_start(form) }}
+                    <div class="col-md-12">
+                        <div class="form-group col-md-12">
+                            {{ form_row(form.invoice_number) }}
+                        </div>
+                        <div class="form-group col-md-12">
+                            {{ form_row(form.invoice_date) }}
+                        </div>
+                        <div class="form-group col-md-12">
+                            {{ form_row(form.invoice_client_id) }}
+                        </div>
+                        <div class="col-md-12 cloned-row">
+                            <div class="invoiceRow" data-prototype="{{ form_widget(form.invoiceRow.vars.prototype)|e('html_attr') }}">
+                            </div>
+                        </div>
+                        {#
+                        <div class="form-group col-md-4 pull-left">
+                            <button type="button" id="newArt" data-loading-text="Loading..." class="btn btn-primary">
+                              Add Article Row
+                            </button>
+                        </div>
+                        #}
+                        <div class="form-group col-md-4 pull-right">
+                            {{ form_widget(form.create) }}
+                        </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>  
+{% endblock %}
+{% block javascripts %}
+  {{ parent() }}
+  <script>
+    // setup an "add a article" link
+    var $addTagLink = $('<button type="button" id="newArt" data-loading-text="Loading..." class="btn btn-primary">Add Article Row</button>');
+    var $newLinkLi = $('<div></div>').append($addTagLink);
+
+jQuery(document).ready(function() {
+    // Get the ul that holds the collection of articles
+   var $collectionHolder = $('div.invoiceRow');
+    
+    // add the "add an article" 
+    $collectionHolder.append($newLinkLi);
+    
+    // count the current form inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+    
+    $addTagLink.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+        
+        // add a new article form (see code block below)
+        addTagForm($collectionHolder, $newLinkLi);
+    });
+    
+    
+});
+
+function addTagForm($collectionHolder, $newLinkLi) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+    
+    // get the new index
+    var index = $collectionHolder.data('index');
+    
+    // Replace '$$name$$' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    var newForm = prototype.replace(/__name__/g, index);
+    
+    // increase the index with one for the next item
+    $collectionHolder.data('index', index + 1);
+    
+    // Display the form in the page in an li, before the "Add a article" link li
+    var $newFormLi = $('<div></div>').append(newForm);
+    
+    // also add a remove button, just for this example
+    $newFormLi.append('<a href="#" class="remove-article">x</a>');
+    
+    $newLinkLi.before($newFormLi);
+    
+    // handle the removal, just for this example
+    $('.remove-article').click(function(e) {
+        e.preventDefault();
+        
+        $(this).parent().remove();
+        
+        return false;
+    });
+}
+  </script>
+{% endblock %}

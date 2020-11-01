@@ -1,0 +1,7 @@
+# app/config/parameters.yml
+parameters:
+    database_host:     db
+    database_name:     test_invoice
+    database_user:     root
+    database_password: 000
+    database_port:     11306

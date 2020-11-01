@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello Invoice Test!{% endblock %}
+
+{% block body %}
+<div class="container">
+        <div class="blog-header">
+            <h1 class="blog-title">Author admin</h1>
+            <p class="lead blog-description"></p>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-xl-12">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label }}" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            <div class="col-md-12 col-lg-12 col-xl-12">
+                <a type="button" href="{{ path('add') }}" class="btn btn-primary pull-right">Add Entry</a>
+            </div>
+            <div class="col-sm-12 blog-main">
+                <table class="table table-striped">
+                    <thead>
+                        <th>Number</th>
+                        <th>Date</th>
+                        <th>Client ID</th>
+                        <th>Actions</th>
+                    </thead>
+                    {% for invoice in Invoices %}
+                        <tr>
+                            <td>{{ invoice.invoice_number }}</td>
+                            <td>{{ invoice.invoice_date|date('F j, Y') }}</td>
+                            <td>{{ invoice.invoice_client_id }}</td>
+                            <td>
+                                <a href="{{ path('edit', {id: invoice.id}) }}" class="button is-warning">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>EDIT
+                                </a>
+                                <a href="{{ path('delete', {id: invoice.id}) }}" class="button is-danger delete-invoice" data-trans="Do you confirm to Delete the invoice?">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>DELETE
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6">No entries available</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+     {{ parent() }}
+    <script>
+        $('.delete-invoice').on('click', function() {
+            var message = $('.delete-invoice').data('trans');
+    return confirm(message);
+});
+    </script>
+{% endblock %}
